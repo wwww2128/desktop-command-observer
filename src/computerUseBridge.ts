@@ -9,6 +9,12 @@ export type ComputerUseWindow = {
   readonly title?: string;
 };
 
+export type SanitizedComputerUseWindow = {
+  readonly id: number;
+  readonly app: string;
+  readonly hasTitle: boolean;
+};
+
 export type ComputerUseBridgeSharedWindow = {
   readonly id: number;
   readonly observerApp: string;
@@ -82,6 +88,15 @@ export function parseComputerUseWindows(
   return value.map(parseComputerUseWindow);
 }
 
+export function sanitizeComputerUseWindows(
+  value: unknown,
+): readonly SanitizedComputerUseWindow[] {
+  if (!Array.isArray(value)) {
+    throw new ComputerUseBridgeParseError("Computer Use JSON must be a window array");
+  }
+  return value.map(sanitizeComputerUseWindow);
+}
+
 function parseObserverWindows(value: readonly unknown[]): readonly DesktopWindow[] {
   return value.map(parseObserverWindow);
 }
@@ -142,6 +157,17 @@ function parseComputerUseWindow(value: unknown): ComputerUseWindow {
     return { id, app, title };
   }
   return { id, app };
+}
+
+function sanitizeComputerUseWindow(value: unknown): SanitizedComputerUseWindow {
+  const computerUseWindow = parseComputerUseWindow(value);
+  return {
+    id: computerUseWindow.id,
+    app: appLabel(computerUseWindow.app),
+    hasTitle:
+      typeof computerUseWindow.title === "string" &&
+      computerUseWindow.title.length > 0,
+  };
 }
 
 function isObserverBounds(value: unknown): value is DesktopWindow["bounds"] {

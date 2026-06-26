@@ -10,6 +10,7 @@
   "scripts": {
     "snapshot": "node ./bin/desktop-agent.ts snapshot",
     "watch": "node ./bin/desktop-agent.ts watch",
+    "capture:computer-use": "node ./scripts/capture-computer-use-windows.ts",
     "bridge:computer-use": "node ./scripts/computer-use-bridge.ts",
     "test": "node --test"
   },

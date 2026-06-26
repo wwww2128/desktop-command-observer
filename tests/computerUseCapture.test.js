@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
+import { captureComputerUseWindowsFromSky } from "../scripts/capture-active-computer-use-runtime.mjs";
 import {
   captureComputerUseWindows,
   createComputerUseWindowLister,
@@ -96,4 +97,26 @@ test("captureComputerUseWindows accepts an active sky list_windows provider", as
     { id: 909, app: "Secret.exe", hasTitle: true },
   ]);
   assert.doesNotMatch(JSON.stringify(capturedWindows), /Secret Live Window|Users|AppData|process:/);
+});
+
+test("active runtime shim captures sanitized sky windows", async () => {
+  // Given: Codex runtime can expose sky to an importable .mjs shim.
+  const sky = {
+    list_windows: async () => [
+      {
+        id: 1001,
+        app: String.raw`process:C:\Users\STC\AppData\Local\Runtime.exe`,
+        title: "Runtime Private Window",
+      },
+    ],
+  };
+
+  // When: the runtime shim captures from sky directly.
+  const capturedWindows = await captureComputerUseWindowsFromSky(sky);
+
+  // Then: the direct runtime path emits the same sanitized evidence shape.
+  assert.deepEqual(capturedWindows, [
+    { id: 1001, app: "Runtime.exe", hasTitle: true },
+  ]);
+  assert.doesNotMatch(JSON.stringify(capturedWindows), /Runtime Private Window|Users|AppData|process:/);
 });

@@ -22,7 +22,18 @@ node .\bin\desktop-agent.ts watch --interval-ms 250 --limit 3
 
 For the local Codex Computer Use plugin bridge, first capture an observer
 snapshot and a sanitized Computer Use window list. In a host that already
-exposes the active Computer Use `sky` runtime, use the provider API:
+exposes the active Computer Use `sky` runtime, use the importable runtime shim:
+
+```javascript
+import { writeComputerUseCaptureFromSky } from "./scripts/capture-active-computer-use-runtime.mjs";
+
+await writeComputerUseCaptureFromSky({
+  sky,
+  outFile: "./.omo/ulw-loop/evidence/computer-use-live.json",
+});
+```
+
+If the host can import TypeScript directly, the typed provider API is:
 
 ```typescript
 import {

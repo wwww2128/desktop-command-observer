@@ -66,6 +66,17 @@ The capture step stores only native window ids, basename app labels, and whether
 a title existed. The bridge matches by native window id and masks titles by
 default.
 
+## CI
+
+GitHub Actions runs `npm test` on every push and pull request to `main` using
+Node.js 24.
+
+## License
+
+MIT. This permits reuse, modification, distribution, and private or commercial
+use, as long as the copyright and license notice are preserved. The software is
+provided without warranty.
+
 ## Shape
 
 ```text

@@ -2,6 +2,7 @@
   "name": "desktop-command-observer",
   "version": "0.1.0",
   "description": "Windows desktop state observer that emits snapshot and patch JSON for faster computer-use agents.",
+  "license": "MIT",
   "type": "module",
   "private": true,
   "bin": {

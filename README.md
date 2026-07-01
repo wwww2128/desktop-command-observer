@@ -62,6 +62,15 @@ node .\scripts\computer-use-bridge.ts `
   --computer-use-file .\.omo\ulw-loop\evidence\computer-use-live.json
 ```
 
+To emit one integrated agent context, including shared target windows ranked by
+active/frontmost/minimized state:
+
+```powershell
+node .\scripts\agent-context.ts `
+  --observer-file .\.omo\ulw-loop\evidence\observer-real.json `
+  --computer-use-file .\.omo\ulw-loop\evidence\computer-use-live.json
+```
+
 The capture step stores only native window ids, basename app labels, and whether
 a title existed. The bridge matches by native window id and masks titles by
 default.
@@ -84,6 +93,7 @@ src/diff.ts             pure snapshot and patch logic
 src/windowsObserver.ts  Windows EnumWindows adapter via PowerShell/Add-Type
 src/cli.ts              CLI command parsing and JSON-line output
 src/computerUseBridge.ts native id bridge for Codex Computer Use window data
+src/agentContext.ts     integrated observer and Computer Use context output
 bin/desktop-agent.ts    executable entrypoint
 scripts/                bridge helper commands
 tests/                  node:test coverage for pure behavior

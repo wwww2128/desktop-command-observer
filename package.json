@@ -13,6 +13,7 @@
     "watch": "node ./bin/desktop-agent.ts watch",
     "capture:computer-use": "node ./scripts/capture-computer-use-windows.ts",
     "bridge:computer-use": "node ./scripts/computer-use-bridge.ts",
+    "context:agent": "node ./scripts/agent-context.ts",
     "test": "node --test"
   },
   "engines": {

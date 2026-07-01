@@ -137,6 +137,62 @@ test("agent context CLI emits compact integrated context JSON", () => {
   assert.doesNotMatch(result.stdout, /Private Ticket/);
 });
 
+test("agent context CLI watches file inputs as compact JSON lines", () => {
+  // Given: stable file inputs and a bounded watch command.
+  const directory = mkdtempSync(join(tmpdir(), "agent-context-watch-"));
+  const observerFile = join(directory, "observer.json");
+  const computerUseFile = join(directory, "computer-use.json");
+  const snapshot = createSnapshot([
+    observerWindow({
+      id: "22",
+      title: "Private Stream",
+      app: "WindowsTerminal",
+      zOrder: 0,
+      isActive: true,
+      isMinimized: false,
+    }),
+  ]);
+  writeFileSync(observerFile, JSON.stringify(snapshot), "utf8");
+  writeFileSync(
+    computerUseFile,
+    JSON.stringify([{ id: 22, app: "Windows Terminal", title: "Private Stream" }]),
+    "utf8",
+  );
+
+  // When: the agent context CLI is run in bounded watch mode.
+  const result = spawnSync(
+    "node",
+    [
+      "./scripts/agent-context.ts",
+      "--observer-file",
+      observerFile,
+      "--computer-use-file",
+      computerUseFile,
+      "--watch",
+      "--interval-ms",
+      "1",
+      "--limit",
+      "2",
+    ],
+    { cwd: process.cwd(), encoding: "utf8", timeout: 5_000 },
+  );
+  rmSync(directory, { recursive: true, force: true });
+
+  // Then: each emitted line is a compact integrated context report.
+  assert.equal(result.status, 0);
+  assert.equal(result.stderr, "");
+  const lines = result.stdout.trimEnd().split("\n");
+  assert.equal(lines.length, 2);
+  for (const line of lines) {
+    assert.doesNotMatch(line, /^\s|\s$/);
+    const report = JSON.parse(line);
+    assert.equal(report.kind, "desktop-agent.context");
+    assert.equal(report.bridge.sharedWindowCount, 1);
+    assert.equal(report.recommendedTargets.length, 1);
+  }
+  assert.doesNotMatch(result.stdout, /Private Stream/);
+});
+
 test("agent context CLI reports missing required options", () => {
   // Given: no CLI arguments.
   const result = spawnSync("node", ["./scripts/agent-context.ts"], {

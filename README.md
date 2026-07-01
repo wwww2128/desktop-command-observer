@@ -71,6 +71,15 @@ node .\scripts\agent-context.ts `
   --computer-use-file .\.omo\ulw-loop\evidence\computer-use-live.json
 ```
 
+To stream that context as JSON Lines for an agent loop:
+
+```powershell
+npm run context:watch -- `
+  --observer-file .\.omo\ulw-loop\evidence\observer-real.json `
+  --computer-use-file .\.omo\ulw-loop\evidence\computer-use-live.json `
+  --interval-ms 500
+```
+
 The capture step stores only native window ids, basename app labels, and whether
 a title existed. The bridge matches by native window id and masks titles by
 default.

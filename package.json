@@ -14,6 +14,7 @@
     "capture:computer-use": "node ./scripts/capture-computer-use-windows.ts",
     "bridge:computer-use": "node ./scripts/computer-use-bridge.ts",
     "context:agent": "node ./scripts/agent-context.ts",
+    "context:watch": "node ./scripts/agent-context.ts --watch",
     "test": "node --test"
   },
   "engines": {

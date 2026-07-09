@@ -1,11 +1,13 @@
-# Desktop Command Observer
+# Computer Use Observer Layer
 
-Windows desktop context observer for faster computer-use agents.
+An unofficial observer layer for OpenAI Computer Use that tracks Windows desktop
+context, focus, bounds, and state changes.
 
 The first version does one narrow job: keep the agent from repeatedly
 rediscovering which windows are open, where they are, and which one is active.
 It emits an initial desktop snapshot, then command-mode style patches when the
-window topology changes.
+window topology changes. It is a companion layer, not a replacement for the
+official Computer Use plugin.
 
 ## Run
 

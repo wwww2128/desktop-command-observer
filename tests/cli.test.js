@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { CliUsageError, parseCommand, toJsonLine } from "../src/cli.ts";
+import { CliUsageError, parseCommand, runCommand, toJsonLine } from "../src/cli.ts";
 
 test("parseCommand defaults to a snapshot command", () => {
   // Given: no explicit CLI arguments.
@@ -34,6 +34,21 @@ test("parseCommand rejects unknown commands", () => {
 
   // Then: the user gets a CLI usage error.
   assert.throws(parse, CliUsageError);
+});
+
+test("runCommand emits help text when requested", async () => {
+  // Given: the help command and a captured output stream.
+  const lines = [];
+  const command = parseCommand(["--help"]);
+
+  // When: the command is run.
+  await runCommand(command, (line) => lines.push(line));
+
+  // Then: the CLI explains the public cu-observer command.
+  assert.equal(lines.length, 1);
+  assert.match(lines[0], /Usage: cu-observer/);
+  assert.match(lines[0], /snapshot/);
+  assert.match(lines[0], /watch/);
 });
 
 test("toJsonLine emits compact JSON", () => {

@@ -1,16 +1,16 @@
 {
-  "name": "desktop-command-observer",
+  "name": "computer-use-observer-layer",
   "version": "0.1.0",
-  "description": "Windows desktop state observer that emits snapshot and patch JSON for faster computer-use agents.",
+  "description": "Unofficial observer layer that streams Windows desktop context for OpenAI Computer Use agents.",
   "license": "MIT",
   "type": "module",
   "private": true,
   "bin": {
-    "desktop-agent": "./bin/desktop-agent.ts"
+    "cu-observer": "./bin/cu-observer.ts"
   },
   "scripts": {
-    "snapshot": "node ./bin/desktop-agent.ts snapshot",
-    "watch": "node ./bin/desktop-agent.ts watch",
+    "snapshot": "node ./bin/cu-observer.ts snapshot",
+    "watch": "node ./bin/cu-observer.ts watch",
     "capture:computer-use": "node ./scripts/capture-computer-use-windows.ts",
     "bridge:computer-use": "node ./scripts/computer-use-bridge.ts",
     "context:agent": "node ./scripts/agent-context.ts",

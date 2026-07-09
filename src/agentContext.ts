@@ -5,7 +5,7 @@ import {
 } from "./computerUseBridge.ts";
 import type { Bounds, DesktopSnapshot, DesktopWindow, WindowId } from "./diff.ts";
 
-const AGENT_CONTEXT_KIND = "desktop-agent.context" as const;
+const AGENT_CONTEXT_KIND = "computer-use-observer.context" as const;
 const MASKED_TITLE_POLICY = "masked" as const;
 
 export type AgentContextTargetReason =

@@ -63,7 +63,7 @@ test("buildAgentContextReport recommends shared active windows before frontmost 
   const report = buildAgentContextReport(snapshot, computerUseWindows);
 
   // Then: shared targets are ranked with private titles and process paths masked.
-  assert.equal(report.kind, "desktop-agent.context");
+  assert.equal(report.kind, "computer-use-observer.context");
   assert.equal(report.titlePolicy, "masked");
   assert.deepEqual(report.observer, { windowCount: 3, activeWindowId: "101" });
   assert.deepEqual(report.computerUse, { windowCount: 4 });
@@ -130,7 +130,7 @@ test("agent context CLI emits compact integrated context JSON", () => {
   assert.equal(result.stderr, "");
   assert.doesNotMatch(result.stdout, /\n\s/);
   const report = JSON.parse(result.stdout);
-  assert.equal(report.kind, "desktop-agent.context");
+  assert.equal(report.kind, "computer-use-observer.context");
   assert.equal(report.bridge.sharedWindowCount, 1);
   assert.equal(report.recommendedTargets.length, 1);
   assert.equal(report.recommendedTargets[0].app, "Visual Studio Code");
@@ -186,7 +186,7 @@ test("agent context CLI watches file inputs as compact JSON lines", () => {
   for (const line of lines) {
     assert.doesNotMatch(line, /^\s|\s$/);
     const report = JSON.parse(line);
-    assert.equal(report.kind, "desktop-agent.context");
+    assert.equal(report.kind, "computer-use-observer.context");
     assert.equal(report.bridge.sharedWindowCount, 1);
     assert.equal(report.recommendedTargets.length, 1);
   }

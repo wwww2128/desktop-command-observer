@@ -15,7 +15,11 @@ type WatchCommand = {
   readonly limit: number | null;
 };
 
-export type CliCommand = SnapshotCommand | WatchCommand;
+type HelpCommand = {
+  readonly command: "help";
+};
+
+export type CliCommand = SnapshotCommand | WatchCommand | HelpCommand;
 
 export function parseCommand(argv: readonly string[]): CliCommand {
   const [command = "snapshot", ...rest] = argv;
@@ -29,6 +33,10 @@ export function parseCommand(argv: readonly string[]): CliCommand {
         intervalMs: readNumberOption(rest, "--interval-ms", DEFAULT_INTERVAL_MS),
         limit: readNullableNumberOption(rest, "--limit"),
       };
+    case "help":
+    case "--help":
+    case "-h":
+      return { command: "help" };
     default:
       throw new CliUsageError(`unknown command: ${command}`);
   }
@@ -44,6 +52,9 @@ export async function runCommand(
       return;
     case "watch":
       await watchDesktop(command, writeLine);
+      return;
+    case "help":
+      writeLine(usageText());
       return;
     default:
       assertNeverCommand(command);
@@ -80,6 +91,17 @@ async function watchDesktop(
 
 export function toJsonLine(value: unknown): string {
   return JSON.stringify(value);
+}
+
+function usageText(): string {
+  return [
+    "Usage: cu-observer <command> [options]",
+    "",
+    "Commands:",
+    "  snapshot                         Emit one desktop snapshot as JSON.",
+    "  watch --interval-ms 500          Emit snapshot and patch JSON lines.",
+    "  help                             Show this help.",
+  ].join("\n");
 }
 
 function readNumberOption(

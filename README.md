@@ -12,14 +12,14 @@ official Computer Use plugin.
 ## Run
 
 ```powershell
-node .\bin\desktop-agent.ts snapshot
-node .\bin\desktop-agent.ts watch --interval-ms 500
+node .\bin\cu-observer.ts snapshot
+node .\bin\cu-observer.ts watch --interval-ms 500
 ```
 
 For a bounded smoke run:
 
 ```powershell
-node .\bin\desktop-agent.ts watch --interval-ms 250 --limit 3
+node .\bin\cu-observer.ts watch --interval-ms 250 --limit 3
 ```
 
 For the local Codex Computer Use plugin bridge, first capture an observer
@@ -113,7 +113,7 @@ src/cli.ts              CLI command parsing and JSON-line output
 src/computerUseBridge.ts native id bridge for Codex Computer Use window data
 src/agentContext.ts     integrated observer and Computer Use context output
 src/liveAgentContext.ts live agent context stream core
-bin/desktop-agent.ts    executable entrypoint
+bin/cu-observer.ts      executable entrypoint
 scripts/                bridge helper commands
 tests/                  node:test coverage for pure behavior
 ```

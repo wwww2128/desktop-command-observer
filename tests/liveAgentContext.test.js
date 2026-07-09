@@ -23,7 +23,7 @@ test("readLiveAgentContextReport builds context from live providers", async () =
   const report = await readLiveAgentContextReport(provider);
 
   // Then: the context includes a ranked target without leaking the observer title.
-  assert.equal(report.kind, "desktop-agent.context");
+  assert.equal(report.kind, "computer-use-observer.context");
   assert.equal(report.bridge.sharedWindowCount, 1);
   assert.equal(report.recommendedTargets.length, 1);
   assert.equal(report.recommendedTargets[0].app, "Visual Studio Code");
@@ -56,7 +56,7 @@ test("watchLiveAgentContext emits bounded JSON lines", async () => {
   for (const line of lines) {
     assert.doesNotMatch(line, /^\s|\s$/);
     const report = JSON.parse(line);
-    assert.equal(report.kind, "desktop-agent.context");
+    assert.equal(report.kind, "computer-use-observer.context");
     assert.equal(report.bridge.sharedWindowCount, 1);
   }
   assert.doesNotMatch(lines.join("\n"), /Private Watch Window/);

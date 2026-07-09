@@ -4,6 +4,14 @@ import { createSnapshot, diffSnapshots, hasChanges } from "./diff.ts";
 import { readWindows } from "./windowsObserver.ts";
 
 const DEFAULT_INTERVAL_MS = 500;
+const USAGE_TEXT = [
+  "Usage: cu-observer <command> [options]",
+  "",
+  "Commands:",
+  "  snapshot                         Emit one desktop snapshot as JSON.",
+  "  watch --interval-ms 500          Emit snapshot and patch JSON lines.",
+  "  help                             Show this help.",
+].join("\n");
 
 type SnapshotCommand = {
   readonly command: "snapshot";
@@ -54,7 +62,7 @@ export async function runCommand(
       await watchDesktop(command, writeLine);
       return;
     case "help":
-      writeLine(usageText());
+      writeLine(USAGE_TEXT);
       return;
     default:
       assertNeverCommand(command);
@@ -91,17 +99,6 @@ async function watchDesktop(
 
 export function toJsonLine(value: unknown): string {
   return JSON.stringify(value);
-}
-
-function usageText(): string {
-  return [
-    "Usage: cu-observer <command> [options]",
-    "",
-    "Commands:",
-    "  snapshot                         Emit one desktop snapshot as JSON.",
-    "  watch --interval-ms 500          Emit snapshot and patch JSON lines.",
-    "  help                             Show this help.",
-  ].join("\n");
 }
 
 function readNumberOption(

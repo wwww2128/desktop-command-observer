@@ -80,6 +80,13 @@ npm run context:watch -- `
   --interval-ms 500
 ```
 
+When running inside a Codex host that exposes the active Computer Use `sky`
+runtime, stream live observer and Computer Use context directly:
+
+```powershell
+npm run context:live -- --interval-ms 500 --limit 5
+```
+
 The capture step stores only native window ids, basename app labels, and whether
 a title existed. The bridge matches by native window id and masks titles by
 default.
@@ -103,6 +110,7 @@ src/windowsObserver.ts  Windows EnumWindows adapter via PowerShell/Add-Type
 src/cli.ts              CLI command parsing and JSON-line output
 src/computerUseBridge.ts native id bridge for Codex Computer Use window data
 src/agentContext.ts     integrated observer and Computer Use context output
+src/liveAgentContext.ts live agent context stream core
 bin/desktop-agent.ts    executable entrypoint
 scripts/                bridge helper commands
 tests/                  node:test coverage for pure behavior

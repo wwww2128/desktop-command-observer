@@ -15,6 +15,7 @@
     "bridge:computer-use": "node ./scripts/computer-use-bridge.ts",
     "context:agent": "node ./scripts/agent-context.ts",
     "context:watch": "node ./scripts/agent-context.ts --watch",
+    "context:live": "node ./scripts/live-agent-context.ts",
     "test": "node --test"
   },
   "engines": {
